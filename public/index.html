@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Webiii — Extraia dados da Web para IA</title>
+  <meta name="description" content="A API definitiva para buscar, raspar e interagir com a web em escala. Alimente agentes de IA com dados limpos. Self-hosted, open source.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <!-- Banner -->
+  <div class="top-banner">
+    Self-hosted & open source. Sem limites de uso, sem amarras.
+    <a href="#playground">Comece a construir →</a>
+  </div>
+
+  <!-- Nav -->
+  <nav class="navbar">
+    <div class="nav-left">
+      <a href="/" class="logo">
+        <div class="logo-icon">W</div>
+        <span>Webiii</span>
+      </a>
+      <div class="nav-links">
+        <a href="#playground">Playground</a>
+        <a href="#features">Recursos</a>
+        <a href="#performance">Performance</a>
+        <a href="#docs">Docs</a>
+      </div>
+    </div>
+    <div class="nav-right">
+      <a href="https://github.com/seu-usuario/webiii" target="_blank" class="github-btn">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+        <span>Acessar GitHub</span>
+      </a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="grid-bg"></div>
+    <div class="hero-content animate-up">
+      <h1>Alimente agentes de IA com<br><span class="gradient-text">dados limpos da web</span></h1>
+      <p class="hero-sub">A API definitiva para buscar, raspar e extrair dados da<br>web em escala. <a href="#docs" class="inline-link">100% open source.</a></p>
+
+      <!-- Playground Card -->
+      <div class="playground-card" id="playground">
+        <div class="input-row">
+          <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/></svg>
+          <input type="text" id="urlInput" placeholder="https://exemplo.com" value="https://example.com">
+          <button class="btn-run" id="runBtn" onclick="executeRequest()">→</button>
+        </div>
+        <div class="tabs-row">
+          <button class="tab" data-tab="search" onclick="setTab(this)"><span class="tab-dot"></span>Busca</button>
+          <button class="tab active" data-tab="scrape" onclick="setTab(this)"><span class="tab-dot red"></span>Scrape</button>
+          <button class="tab" data-tab="map" onclick="setTab(this)"><span class="tab-dot"></span>Mapa</button>
+          <button class="tab" data-tab="crawl" onclick="setTab(this)"><span class="tab-dot"></span>Crawl</button>
+          <button class="tab" data-tab="extract" onclick="setTab(this)"><span class="tab-dot"></span>Extração</button>
+        </div>
+      </div>
+
+      <!-- Options (contextual) -->
+      <div class="options-bar" id="optionsBar">
+        <div class="opt" data-for="scrape">
+          <label class="ck"><input type="checkbox" id="fmtMarkdown" checked>Markdown</label>
+          <label class="ck"><input type="checkbox" id="fmtLinks">Links</label>
+          <label class="ck"><input type="checkbox" id="fmtHtml">HTML</label>
+          <label class="ck"><input type="checkbox" id="fmtScreenshot">Screenshot</label>
+        </div>
+        <div class="opt" data-for="crawl">
+          <label>Limite <input type="number" id="crawlLimit" value="5" min="1" max="50" class="sm-input"></label>
+          <label>Profundidade <input type="number" id="crawlDepth" value="2" min="1" max="5" class="sm-input"></label>
+        </div>
+        <div class="opt" data-for="map">
+          <label>Filtro <input type="text" id="mapSearch" placeholder="blog, docs..." class="md-input"></label>
+          <label>Limite <input type="number" id="mapLimit" value="50" class="sm-input"></label>
+        </div>
+        <div class="opt" data-for="extract">
+          <input type="text" id="extractPrompt" placeholder="Extraia o título e conteúdo principal..." class="lg-input">
+        </div>
+        <div class="opt" data-for="search">
+          <input type="text" id="searchQuery" placeholder="melhores IAs em 2026..." class="lg-input">
+          <label>Limite <input type="number" id="searchLimit" value="5" class="sm-input"></label>
+        </div>
+      </div>
+
+      <!-- Mock Code Preview -->
+      <div class="code-preview animate-up delay-1">
+        <div class="preview-left">
+          <div class="wireframe">
+            <div class="wf-bar"><span class="wf-logo"></span><span class="wf-nav"></span><span class="wf-nav"></span><span class="wf-nav short"></span><span class="wf-btn-small"></span></div>
+            <div class="wf-hero-block"></div>
+            <div class="wf-text-lines"><span></span><span class="short"></span><span></span></div>
+          </div>
+          <span class="label-tag tl">[ .JSON ]</span>
+        </div>
+        <div class="preview-right">
+          <pre class="mini-code"><code><span class="ln">1</span>[
+<span class="ln">2</span>  {
+<span class="ln">3</span>    <span class="k">"url"</span>: <span class="s">"https://example.com"</span>,
+<span class="ln">4</span>    <span class="k">"markdown"</span>: <span class="s">"# Domínio de Exemplo..."</span>,
+<span class="ln">5</span>    <span class="k">"metadata"</span>: { <span class="k">"title"</span>: <span class="s">"..."</span> }
+<span class="ln">6</span>  }
+<span class="ln">7</span>]</code></pre>
+          <span class="label-tag tr">[ .MD ]</span>
+        </div>
+        <div class="scraping-pill" id="scrapingPill">Lendo dados...</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Results Panel -->
+  <section class="results-section" id="resultsSection" style="display:none">
+    <div class="results-inner">
+      <div class="results-head">
+        <h3>Resposta da API</h3>
+        <div class="results-meta">
+          <span id="resultTime" class="meta-pill"></span>
+          <span id="resultStatus" class="meta-pill"></span>
+          <button class="btn-copy" onclick="copyResult()">Copiar</button>
+        </div>
+      </div>
+      <pre class="results-code" id="resultsCode"></pre>
+    </div>
+  </section>
+
+  <!-- Section: Features -->
+  <section class="section animate-on-scroll" id="features">
+    <div class="section-label">
+      <span class="sec-num">[ 01 / 04 ]</span>
+      <span class="sec-dot">·</span>
+      <span>Recursos Principais</span>
+      <span class="sec-sep">//</span>
+      <span class="sec-highlight">Pensado para Devs</span>
+      <span class="sec-sep">//</span>
+    </div>
+
+    <div class="features-grid">
+      <div class="feat-card feat-large stagger-item">
+        <div class="feat-label">Busca</div>
+        <h3>Busque na web e obtenha conteúdo completo.</h3>
+        <p>Envie uma query e o Webiii retorna os resultados mais relevantes da internet, cada um com seu conteúdo pronto para uso pelas suas IAs.</p>
+      </div>
+      <div class="feat-card stagger-item">
+        <div class="feat-label">Scrape</div>
+        <h3>Dados prontos para LLMs.</h3>
+        <p>Markdown, HTML, links e screenshots. Tudo com uma única chamada de API limpa e rápida.</p>
+      </div>
+      <div class="feat-card stagger-item">
+        <div class="feat-label">Extração <span class="new-badge">LLM</span></div>
+        <h3>Estruturação inteligente.</h3>
+        <p>Passe um JSON Schema e receba dados rigorosamente estruturados, potencializados pelo Google Gemini.</p>
+      </div>
+      <div class="feat-card stagger-item">
+        <div class="feat-label">Mapeamento</div>
+        <h3>Descubra todas as URLs.</h3>
+        <p>Análise de sitemaps combinada com rastreio rápido. Encontre todas as páginas de um domínio em segundos.</p>
+      </div>
+      <div class="feat-card stagger-item">
+        <div class="feat-label">Crawl</div>
+        <h3>Rastreamento recursivo assíncrono.</h3>
+        <p>Navegação BFS completa com geração de Job ID, polling, controle de profundidade e limite de páginas.</p>
+      </div>
+    </div>
+
+    <!-- Code Example -->
+    <div class="code-example stagger-item">
+      <div class="code-tabs">
+        <button class="ct active" onclick="setCodeTab(this,'curl')">cURL</button>
+        <button class="ct" onclick="setCodeTab(this,'node')">Node.js</button>
+        <button class="ct" onclick="setCodeTab(this,'python')">Python</button>
+      </div>
+      <pre class="code-body" id="codeBody"><code id="codeContent"></code></pre>
+    </div>
+  </section>
+
+  <!-- Section: Performance -->
+  <section class="section animate-on-scroll" id="performance">
+    <div class="section-label">
+      <span class="sec-num">[ 02 / 04 ]</span>
+      <span class="sec-dot">·</span>
+      <span>Núcleo</span>
+      <span class="sec-sep">//</span>
+      <span class="sec-highlight">Construído para Performance</span>
+      <span class="sec-sep">//</span>
+    </div>
+
+    <div class="perf-grid">
+      <div class="perf-card stagger-item">
+        <h3>Adeus problemas com proxies</h3>
+        <p>O Playwright renderiza páginas pesadas em JS, incluindo SPAs, React e Vue. Nenhuma configuração extra ou proxy maluco necessário.</p>
+        <div class="perf-bars">
+          <div class="pbar"><span class="pbar-label">Webiii</span><div class="pbar-track"><div class="pbar-fill red" style="width:95%"></div></div><span class="pbar-val">95%</span></div>
+          <div class="pbar"><span class="pbar-label">fetch()</span><div class="pbar-track"><div class="pbar-fill gray" style="width:60%"></div></div><span class="pbar-val">60%</span></div>
+          <div class="pbar"><span class="pbar-label">cURL</span><div class="pbar-track"><div class="pbar-fill gray" style="width:50%"></div></div><span class="pbar-val">50%</span></div>
+        </div>
+      </div>
+      <div class="perf-card stagger-item">
+        <h3>Velocidade Self-Hosted</h3>
+        <p>Zero latência de rede para APIs de terceiros. A infraestrutura roda na sua máquina. Suas regras, sua velocidade extrema.</p>
+        <div class="perf-table">
+          <div class="pt-row pt-head"><span>Endpoint</span><span>Tempo Médio</span></div>
+          <div class="pt-row"><span>/v1/scrape</span><span>~2s</span></div>
+          <div class="pt-row"><span>/v1/map</span><span>~1s</span></div>
+          <div class="pt-row"><span>/v1/search</span><span>~0.5s</span></div>
+          <div class="pt-row"><span>/v1/extract</span><span>~4s</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section: Features Detail -->
+  <section class="section animate-on-scroll">
+    <div class="section-label">
+      <span class="sec-num">[ 03 / 04 ]</span>
+      <span class="sec-dot">·</span>
+      <span>Detalhes</span>
+      <span class="sec-sep">//</span>
+      <span class="sec-highlight">Zero Configuração</span>
+      <span class="sec-sep">//</span>
+    </div>
+
+    <div class="detail-grid">
+      <div class="detail-card stagger-item">
+        <div class="dc-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        </div>
+        <h4>Renderização Inteligente</h4>
+        <p>O motor do Playwright lida com JavaScript, SPAs e qualquer tipo de carregamento de conteúdo dinâmico automaticamente.</p>
+      </div>
+      <div class="detail-card stagger-item">
+        <div class="dc-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        </div>
+        <h4>Markdown Perfeito</h4>
+        <p>Converte HTML diretamente para Markdown formatado com GFM (tabelas e blocos de código), formato ideal para contexto de LLMs.</p>
+      </div>
+      <div class="detail-card stagger-item">
+        <div class="dc-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+        </div>
+        <h4>Limpeza de Conteúdo</h4>
+        <p>O filtro Cheerio atua removendo menus de navegação, rodapés, popups, scripts e cookies, deixando apenas o que importa.</p>
+      </div>
+      <div class="detail-card stagger-item">
+        <div class="dc-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+        </div>
+        <h4>Capturas de Tela</h4>
+        <p>Gere screenshots da página inteira ou apenas do conteúdo visível no topo, com a adição de um único parâmetro na requisição.</p>
+      </div>
+      <div class="detail-card stagger-item">
+        <div class="dc-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        </div>
+        <h4>Leitura de Sitemaps</h4>
+        <p>O mapeador entende e analisa hierarquias complexas de sitemap.xml, encontrando até as URLs mais escondidas da aplicação.</p>
+      </div>
+      <div class="detail-card stagger-item">
+        <div class="dc-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        </div>
+        <h4>Segurança Integrada</h4>
+        <p>Projetado para estar na web. Validação por Bearer Token e mitigação de DDoS através de Rate Limiting nativo via IP.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section: CTA -->
+  <section class="section cta-section animate-on-scroll" id="docs">
+    <div class="section-label">
+      <span class="sec-num">[ 04 / 04 ]</span>
+      <span class="sec-dot">·</span>
+      <span>Comece Agora</span>
+      <span class="sec-sep">//</span>
+      <span class="sec-highlight">Pronto para Escalar</span>
+      <span class="sec-sep">//</span>
+    </div>
+    <div class="cta-block stagger-item">
+      <h2>Pronto para construir?</h2>
+      <p>Acesse e extraia dados da web com zero limitações. Self-hosted e focado no desenvolvedor.</p>
+      <div class="cta-code">
+        <div class="code-tabs"><span class="ct active">Terminal</span></div>
+        <pre class="code-body"><code><span class="comment"># Instale e inicie o servidor</span>
+cd "API Scraping"
+npm install
+npx playwright install chromium
+npm run dev
+
+<span class="comment"># Faça sua primeira requisição</span>
+curl -X POST http://localhost:3002/v1/scrape \
+  -H "Authorization: Bearer webiii-dev-key-2026" \
+  -H "Content-Type: application/json" \
+  -d '{"url":"https://example.com","formats":["markdown"]}'</code></pre>
+      </div>
+      <div class="cta-buttons">
+        <a href="#playground" class="btn-primary">Abrir Playground</a>
+        <a href="https://github.com/seu-usuario/webiii" target="_blank" class="btn-secondary">Ver no GitHub</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-left">
+        <div class="logo"><div class="logo-icon">W</div><span>Webiii</span></div>
+        <p>A maneira mais simples de extrair<br>dados estruturados da web.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Endpoints</h5>
+        <a href="#playground">/v1/scrape</a>
+        <a href="#playground">/v1/crawl</a>
+        <a href="#playground">/v1/map</a>
+        <a href="#playground">/v1/extract</a>
+        <a href="#playground">/v1/search</a>
+      </div>
+      <div class="footer-col">
+        <h5>Tecnologias</h5>
+        <a href="#">Express.js</a>
+        <a href="#">Playwright</a>
+        <a href="#">Cheerio</a>
+        <a href="#">Turndown</a>
+        <a href="#">Gemini</a>
+      </div>
+    </div>
+    <div class="footer-bottom">© 2026 Webiii — API de Web Scraping Self-Hosted. Licença MIT.</div>
+  </footer>
+
+  <!-- Loading Overlay -->
+  <div class="loading-overlay" id="loadingOverlay" style="display:none">
+    <div class="loader-ring"></div>
+    <p id="loadingText">Extraindo dados...</p>
+  </div>
+
+  <script src="/app.js"></script>
+
+  <!-- Firebase Integration -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDoXAurqrFQGNqXwgk0ajVPngORJxyXJBA",
+      authDomain: "webiii-e507b.firebaseapp.com",
+      projectId: "webiii-e507b",
+      storageBucket: "webiii-e507b.firebasestorage.app",
+      messagingSenderId: "74016081247",
+      appId: "1:74016081247:web:705bfb1b3c879815fe22ea",
+      measurementId: "G-JGHGB3D4MP"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    console.log("🔥 Firebase & Analytics initialized");
+  </script>
+</body>
+</html>

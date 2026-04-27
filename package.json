@@ -1,0 +1,28 @@
+{
+  "name": "webiii",
+  "version": "1.0.0",
+  "description": "Webiii — Self-hosted web scraping API. Transform any website into clean, structured data.",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "node --watch src/index.js",
+    "start": "node src/index.js"
+  },
+  "keywords": ["scraping", "crawling", "web", "api", "markdown", "llm"],
+  "license": "MIT",
+  "dependencies": {
+    "@google/generative-ai": "^0.21.0",
+    "cheerio": "^1.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "express-rate-limit": "^7.5.0",
+    "helmet": "^8.0.0",
+    "playwright": "^1.50.0",
+    "turndown": "^7.2.0",
+    "turndown-plugin-gfm": "^1.0.2",
+    "uuid": "^11.1.0",
+    "winston": "^3.17.0",
+    "xml2js": "^0.6.2"
+  }
+}
