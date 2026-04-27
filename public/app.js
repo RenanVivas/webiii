@@ -1,4 +1,4 @@
-const API_KEY = 'webiii-dev-key-2026';
+const API_KEY = 'Renans2pietro18@';
 let currentTab = 'scrape';
 let lastResult = '';
 
